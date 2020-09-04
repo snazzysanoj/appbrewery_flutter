@@ -15,7 +15,8 @@ class CardApp extends StatelessWidget {
         backgroundColor: Colors.blueGrey[900],
         body: SafeArea(
             child: Column(
-          children: [
+              mainAxisAlignment: MainAxisAlignment.center,
+          children: [ 
             CircleAvatar(
               //backgroundColor: Colors.white,
               backgroundImage: AssetImage('images/pic.jpg'),
@@ -26,7 +27,7 @@ class CardApp extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Audiowide',
                 fontWeight: FontWeight.bold,
-                fontSize: 50.0,
+                fontSize: 40.0,
                 color: Colors.white,
               ),
             ),
@@ -34,64 +35,57 @@ class CardApp extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Boogaloo',
                   fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
+                  fontSize: 17.0,
                   color: Colors.grey[400],
                   letterSpacing: 2,
                 )),
-            Container(
-              color: Colors.white,
-              margin: EdgeInsets.symmetric(
-                vertical:10.0,
-                horizontal:25.0,
-              ),
-              padding: EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.phone,
-                    color: Colors.blue,
-                    size: 30.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    '+91 7639661040',
-                    style: TextStyle(
-                      color: Colors.black, 
-                      fontSize: 20.0
-                    ),
-                  ),
-                ],
+            SizedBox(
+              height: 20.0,
+              width: 300.0,
+              child: Divider(
+                thickness: 2.0,
+                color: Colors.blueGrey[400]
               ),
             ),
-            Container(
-              color: Colors.white,
+            Card(
               margin: EdgeInsets.symmetric(
                 vertical:10.0,
                 horizontal:25.0,
               ),
-              padding: EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.email,
-                    color: Colors.teal,
-                    size: 30.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    'admin@snazzysanoj.in',
-                    style: TextStyle(
-                      color: Colors.black, 
-                      fontSize: 20.0
-                    ),
-                  ),
-                ],
+              child: ListTile(
+                title: Text(
+                  ' +91 7639661040',
+                  style: TextStyle(
+                    fontSize: 18,
+                  )
+                ),
+                leading: Icon(
+                  Icons.phone,
+                  color: Colors.blue
+                ),
               ),
-            )
+            ),
+            Card(
+              margin: EdgeInsets.symmetric(
+                vertical:10.0,
+                horizontal:25.0,
+              ),
+              child: ListTile(
+                title: Text(
+                  'admin@snazzysanoj.in',
+                  style: TextStyle(
+                    fontSize: 18.0
+                  ),
+                ),
+                leading: Icon(
+                  Icons.email,
+                  color: Colors.teal,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 200.0,
+            ),
           ],
         )),
       ),
