@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   runApp(CardApp());
 }
 
@@ -11,37 +14,86 @@ class CardApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.blueGrey[900],
         body: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                color: Colors.red,
-                height: double.infinity,
-                width: 100.0
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                      color: Colors.yellow,
-                      height: 100.0,
-                      width: 100.0
-                      ),
-                      Container(
-                      color: Colors.lightGreen,
-                      height: 100.0,
-                      width: 100.0
-                      )
-                    ]
+            child: Column(
+          children: [
+            CircleAvatar(
+              //backgroundColor: Colors.white,
+              backgroundImage: AssetImage('images/pic.jpg'),
+              radius: 75.0,
+            ),
+            Text(
+              'Snazzy Sanoj',
+              style: TextStyle(
+                fontFamily: 'Audiowide',
+                fontWeight: FontWeight.bold,
+                fontSize: 50.0,
+                color: Colors.white,
+              ),
+            ),
+            Text('Developer | Pentester | OSCP',
+                style: TextStyle(
+                  fontFamily: 'Boogaloo',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  color: Colors.grey[400],
+                  letterSpacing: 2,
+                )),
+            Container(
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(
+                vertical:10.0,
+                horizontal:25.0,
+              ),
+              padding: EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.phone,
+                    color: Colors.blue,
+                    size: 30.0,
                   ),
-                Container(
-                color: Colors.blue,
-                height: double.infinity,
-                width: 100.0
-                )
-            ],
-          )
-        ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text(
+                    '+91 7639661040',
+                    style: TextStyle(
+                      color: Colors.black, 
+                      fontSize: 20.0
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              margin: EdgeInsets.symmetric(
+                vertical:10.0,
+                horizontal:25.0,
+              ),
+              padding: EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.email,
+                    color: Colors.teal,
+                    size: 30.0,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text(
+                    'admin@snazzysanoj.in',
+                    style: TextStyle(
+                      color: Colors.black, 
+                      fontSize: 20.0
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        )),
       ),
     );
   }
