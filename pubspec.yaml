@@ -30,6 +30,19 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+  - images/
+  fonts:
+    - family: Audiowide
+      fonts:
+        - asset: fonts/Audiowide-Regular.ttf
+    - family: Boogaloo
+      fonts:
+        - asset: fonts/Boogaloo-Regular.ttf
+    - family: ConcertOne
+      fonts:
+        - asset: fonts/ConcertOne-Regular.ttf
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
