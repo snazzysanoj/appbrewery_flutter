@@ -42,7 +42,12 @@ class _BallState extends State<Ball> {
           title: Text('Ask Me Anything !'),
         ),
         body: Center(
-          child: Image.asset('images/ball1.png'),
+          child: FlatButton(
+            child: Image.asset('images/ball1.png'),
+            onPressed: () {
+              print("Pressed yay !");
+            },
+          ),
         ),
       ),
     );
