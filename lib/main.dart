@@ -27,6 +27,11 @@ class _DicePageState extends State<DicePage> {
   int leftDice = 1;
   int rightDice = 1;
 
+  void updateDice (){
+    leftDice = Random().nextInt(5) + 1;
+    rightDice = Random().nextInt(5) + 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -38,7 +43,7 @@ class _DicePageState extends State<DicePage> {
               onPressed: () {
                 setState(
                   () {
-                    leftDice = Random().nextInt(5) + 1;
+                    updateDice();
                   },
                 );
               },
@@ -50,7 +55,7 @@ class _DicePageState extends State<DicePage> {
               onPressed: () {
                 setState(
                   () {
-                    rightDice = Random().nextInt(5) + 1;
+                    updateDice();
                   },
                 );
               },
