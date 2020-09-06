@@ -26,6 +26,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  QuestionProcessor questionProcessor = QuestionProcessor();
+
   List<Icon> scoreKeeper = [
     Icon(
       Icons.check,
@@ -43,17 +45,16 @@ class _QuizPageState extends State<QuizPage> {
     color: Colors.red,
   );
 
-  List questions = [
-    Question(
-        question: 'You can lead a cow down stairs but not up stairs.',
-        answer: false),
-    Question(
-        question: 'Approximately one quarter of human bones are in the feet.',
-        answer: true),
-    Question(question: 'A slug\'s blood is green.', answer: true),
-  ];
-
-  int currentQuestion = 0;
+  void checkAnswer(bool answer) {
+    Icon iconToAdd = wrongIcon;
+    if (answer == questionProcessor.getAnswer()) {
+      iconToAdd = correctIcon;
+    }
+    setState(() {
+      scoreKeeper.add(iconToAdd);
+    });
+    questionProcessor.nextQuestion();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[currentQuestion].questionText,
+                questionProcessor.getQuestion(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -91,15 +92,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correct = questions[currentQuestion].answerValue;
-                Icon iconToAdd = wrongIcon;
-                if (correct == true) {
-                  iconToAdd = correctIcon;
-                }
-                setState(() {
-                  scoreKeeper.add(iconToAdd);
-                });
-                currentQuestion++;
+                checkAnswer(true);
               },
             ),
           ),
@@ -117,20 +110,11 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correct = questions[currentQuestion].answerValue;
-                Icon iconToAdd = wrongIcon;
-                if (correct == false) {
-                  iconToAdd = correctIcon;
-                }
-                setState(() {
-                  scoreKeeper.add(iconToAdd);
-                });
-                currentQuestion++;
+                checkAnswer(false);
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
         Row(
           children: scoreKeeper,
         ),
