@@ -52,8 +52,8 @@ class _QuizPageState extends State<QuizPage> {
     }
     setState(() {
       scoreKeeper.add(iconToAdd);
+      questionProcessor.nextQuestion();
     });
-    questionProcessor.nextQuestion();
   }
 
   @override
