@@ -52,4 +52,13 @@ class QuestionProcessor {
       _currentQuestion++;
     }
   }
+
+  bool isFinished() {
+    if (_currentQuestion == _questions.length -1) {
+      _currentQuestion = 0;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'questions.dart';
 
 void main() => runApp(Quizzler());
@@ -25,9 +26,9 @@ class QuizPage extends StatefulWidget {
   _QuizPageState createState() => _QuizPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
-  QuestionProcessor questionProcessor = QuestionProcessor();
+QuestionProcessor questionProcessor = QuestionProcessor();
 
+class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [
     Icon(
       Icons.check,
@@ -54,6 +55,25 @@ class _QuizPageState extends State<QuizPage> {
       scoreKeeper.add(iconToAdd);
       questionProcessor.nextQuestion();
     });
+    if (questionProcessor.isFinished()) {
+      Alert(
+          context: context,
+          type: AlertType.success,
+          title: "Quizzler",
+          desc: "Thanks for playing",
+          buttons: [
+            DialogButton(
+              child: Text(
+                'Play Again',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ]).show();
+      scoreKeeper = [];
+    }
   }
 
   @override
