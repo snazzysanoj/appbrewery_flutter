@@ -1,12 +1,16 @@
+import 'package:bmi_calculator/results.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'widgets.dart';
-
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0x99161629);
-const bottomCardColor = Colors.red;
+import 'const.dart';
 
 enum Gender { male, female }
+
+int currentHeightValue = 180;
+int currentWeightValue = 50;
+int currentAgeValue = 21;
+int bmi;
+
 
 class InputPage extends StatefulWidget {
   @override
@@ -64,7 +68,52 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: CardWidget(color: activeCardColor),
+                  child: CardWidget(
+                    color: activeCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'HEIGHT',
+                          style: defaultTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              currentHeightValue.toString(),
+                              style: largeTextStyle,
+                            ),
+                            Text(
+                              'cm',
+                              style: defaultTextStyle,
+                            ),
+                          ],
+                        ),
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                            thumbColor: Colors.blue,
+                          ),
+                          child: Slider(
+                            value: currentHeightValue.toDouble(),
+                            min: 120,
+                            max: 220,
+                            divisions: 100,
+                            label: currentHeightValue.round().toString(),
+                            onChanged: (double value) {
+                              setState(() {
+                                currentHeightValue = value.round();
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -74,21 +123,99 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: CardWidget(color: activeCardColor),
+                  child: CardWidget(
+                    color: activeCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'WEIGHT',
+                          style: defaultTextStyle,
+                        ),
+                        Text(
+                          currentWeightValue.toString(),
+                          style: largeTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleButton(
+                                icon: FontAwesomeIcons.plus,
+                                onPressed: () {
+                                  setState(() {
+                                    currentWeightValue++;
+                                  });
+                                }),
+                            SizedBox(width: 20),
+                            CircleButton(
+                                icon: FontAwesomeIcons.minus,
+                                onPressed: () {
+                                  setState(() {
+                                    currentWeightValue--;
+                                  });
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: CardWidget(color: activeCardColor),
+                  child: CardWidget(
+                    color: activeCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: defaultTextStyle,
+                        ),
+                        Text(
+                          currentAgeValue.toString(),
+                          style: largeTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressed: () {
+                                setState(() {
+                                  currentAgeValue++;
+                                });
+                              },
+                            ),
+                            SizedBox(width: 20),
+                            CircleButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressed: () {
+                                setState(() {
+                                  currentAgeValue--;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: bottomCardColor,
-              width: double.infinity,
-            ),
-          ),
+          BottomButton(
+              text: 'CALCULATE BMI',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultsPage(
+                      height: currentHeightValue,
+                      weight: currentWeightValue,
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
     );

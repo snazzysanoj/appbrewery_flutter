@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'const.dart';
 
 class IconWidget extends StatelessWidget {
   final IconData icon;
@@ -25,10 +26,7 @@ class IconWidget extends StatelessWidget {
           ),
           Text(
             text,
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-            ),
+            style: defaultTextStyle,
           )
         ],
       ),
@@ -53,6 +51,53 @@ class CardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+    );
+  }
+}
+
+class CircleButton extends StatelessWidget {
+  final IconData icon;
+  final Function onPressed;
+
+  CircleButton({this.icon, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: null,
+      onPressed: onPressed,
+      backgroundColor: smallWidgetColor,
+      foregroundColor: Colors.white,
+      child: Icon(icon),
+    );
+  }
+}
+
+class BottomButton extends StatelessWidget {
+
+final String text;
+final Function onPressed;
+
+BottomButton({@required this.text,@required this.onPressed});
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        color: bottomCardColor,
+        width: double.infinity,
+        child: Center(
+          child: FlatButton(
+            onPressed: onPressed,
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ),
       ),
     );
