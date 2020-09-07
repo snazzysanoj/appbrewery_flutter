@@ -1,9 +1,9 @@
 class Story {
   String storyTitle,choiceA,choiceB;
-  
-  Story(String storyTitle,String choiceA,String choiceB){
+
+  Story({String storyTitle,String choice1,String choice2}){
     this.storyTitle = storyTitle;
-    this.choiceA = choiceA;
-    this.choiceB = choiceB;
+    this.choiceA = choice1;
+    this.choiceB = choice2;
   }
 }
