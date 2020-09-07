@@ -42,7 +42,7 @@ class ResultsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    calc.getResult(),
+                    calc.getResult().toUpperCase(),
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 20,
