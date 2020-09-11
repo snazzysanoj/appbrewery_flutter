@@ -11,6 +11,9 @@ var cryptPrice = {'btc': '0', 'eth': '0', 'ltc': '0'};
 class _PriceScreenState extends State<PriceScreen> {
   String currentCurrency = 'USD';
   CoinData coinData = CoinData();
+  // String btcPrice = '0';
+  // String ltcPrice = '0';
+  // String ethPrice = '0';
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,9 @@ class _PriceScreenState extends State<PriceScreen> {
                     cryptPrice[cryptoName] = await coinData.makeGET(
                         currency: currentCurrency, crypto: cryptoName);
                   }
-                  setState(null);
+                  setState(
+                    () {},
+                  );
                 },
               ),
             ),

@@ -33,11 +33,9 @@ const List<String> cryptoList = [
 ];
 
 class CoinData {
-  Future<String> makeGET(
-      {String currency = 'USD', String crypto = 'BTC'}) async {
-    String url =
-        'https://rest.coinapi.io/v1/exchangerate/$crypto/$currency?apikey=BA6255CB-B373-46D7-94D4-695E6B533820';
-    var t = await http.get(url);
-    return jsonDecode(t.body)['rate'].toString();
+  Future<String> makeGET({String currency='USD', String crypto='BTC'}) async{
+    String url = 'https://rest.coinapi.io/v1/exchangerate/$crypto/$currency?apikey=BA6255CB-B373-46D7-94D4-695E6B533820';
+   var t = await http.get(url);
+   return jsonDecode(t.body)['rate'].toString();
   }
 }
