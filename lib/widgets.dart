@@ -40,7 +40,10 @@ class InputTextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
+      style: TextStyle(color: Colors.black,
+      ),
       decoration: InputDecoration(
+        hintStyle: TextStyle(color: Colors.grey),
         hintText: text,
         contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         border: OutlineInputBorder(

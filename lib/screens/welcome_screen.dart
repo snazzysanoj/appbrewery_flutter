@@ -25,8 +25,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: <Widget>[
                 LogoProvider(size: logoSize.small),
                 TypewriterAnimatedTextKit(
+                  repeatForever: true,
                   speed: Duration(milliseconds: 200),
-                  text: ['Flash Chat'],
+                  text: ['Snazzy Chat'],
                   textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
