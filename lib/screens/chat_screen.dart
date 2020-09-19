@@ -12,7 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
-  TextEditingController msgTextInput;
+  final msgTextInput = TextEditingController();
   FirebaseUser user;
 
   String messageText;
@@ -38,9 +38,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       appBar: AppBar(
-        
         leading: null,
         actions: <Widget>[
           IconButton(
@@ -70,18 +69,18 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Text('Loading messages...'),
                   );
                 }
-                for (DocumentSnapshot message in messages.documents) {
+                for (DocumentSnapshot message in messages.documents.reversed) {
                   Widget messageLine = MessageBubble(
                     msg: message.data['msg'],
-                    sender: (message.data['sender'] == user.email)
-                        ? 'current'
-                        : message.data['sender'],
+                    sender: message.data['sender'],
+                    isMe: (message.data['sender'] == user.email),
                   );
                   messageList.add(messageLine);
                 }
 
                 return Expanded(
                   child: ListView(
+                    reverse: true,
                     children: messageList,
                   ),
                 );
@@ -131,73 +130,56 @@ class MessageBubble extends StatelessWidget {
     Key key,
     @required this.msg,
     @required this.sender,
+    @required this.isMe,
   }) : super(key: key);
 
   final String msg;
   final String sender;
+  final bool isMe;
 
   @override
   Widget build(BuildContext context) {
-    if (sender == 'current') {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:10),
+      child: Row(
+        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                topLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-              elevation: 10,
-              color: Colors.lightBlue,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  msg,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+          Visibility(
+            visible: !isMe,
+            child: CircleAvatar(
+              child: Image.asset('images/logo.png'),
             ),
-          ),
-          CircleAvatar(
-            child: Image.asset('images/logo.png'),
-          ),
-        ],
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            child: Image.asset('images/logo.png')
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Material(
               borderRadius: BorderRadius.only(
+                topLeft: isMe ? Radius.circular(20) : Radius.zero,
+                topRight: isMe ? Radius.zero : Radius.circular(20),
                 bottomLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
-              elevation: 10,
-              color: Colors.lightBlue,
+              elevation: 5,
+              color: isMe ? Colors.lightBlue : Colors.grey[400],
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  msg,
+                  msg != null ? msg : 'None',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: isMe ? Colors.white : Colors.black,
                   ),
                 ),
               ),
             ),
           ),
+          Visibility(
+            visible: isMe,
+            child: CircleAvatar(
+              child: Image.asset('images/logo.png'),
+            ),
+          ),
         ],
-      );
-    }
+      ),
+    );
   }
 }
