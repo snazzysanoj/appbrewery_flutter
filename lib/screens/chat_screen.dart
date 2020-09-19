@@ -62,17 +62,23 @@ class _ChatScreenState extends State<ChatScreen> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 final QuerySnapshot messages = snapshot.data;
                 List<Widget> messageList = [];
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: Text('Loading messages...'),
+                  );
+                }
                 for (DocumentSnapshot message in messages.documents) {
                   String msg = message.data['msg'];
                   String sender = message.data['sender'];
-                  Widget messageLine = Text('$msg from $sender');
+                  Widget messageLine = Text(
+                    '$msg from $sender',
+                    style: TextStyle(color: Colors.white),
+                  );
                   messageList.add(messageLine);
                 }
 
-                return Container(
-                  child: Column(
-                    children: messageList,
-                  ),
+                return Column(
+                  children: messageList,
                 );
               },
             ),
