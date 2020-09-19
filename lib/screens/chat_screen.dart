@@ -12,6 +12,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
+  TextEditingController msgTextInput;
   FirebaseUser user;
 
   String messageText;
@@ -37,7 +38,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        
         leading: null,
         actions: <Widget>[
           IconButton(
@@ -68,17 +71,19 @@ class _ChatScreenState extends State<ChatScreen> {
                   );
                 }
                 for (DocumentSnapshot message in messages.documents) {
-                  String msg = message.data['msg'];
-                  String sender = message.data['sender'];
-                  Widget messageLine = Text(
-                    '$msg from $sender',
-                    style: TextStyle(color: Colors.white),
+                  Widget messageLine = MessageBubble(
+                    msg: message.data['msg'],
+                    sender: (message.data['sender'] == user.email)
+                        ? 'current'
+                        : message.data['sender'],
                   );
                   messageList.add(messageLine);
                 }
 
-                return Column(
-                  children: messageList,
+                return Expanded(
+                  child: ListView(
+                    children: messageList,
+                  ),
                 );
               },
             ),
@@ -89,6 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: msgTextInput,
                       onChanged: (value) => messageText = value,
                       decoration: kMessageTextFieldDecoration,
                     ),
@@ -101,6 +107,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           'msg': messageText,
                         },
                       );
+                      setState(() {
+                        msgTextInput.clear();
+                      });
                     },
                     child: Text(
                       'Send',
@@ -114,5 +123,81 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  const MessageBubble({
+    Key key,
+    @required this.msg,
+    @required this.sender,
+  }) : super(key: key);
+
+  final String msg;
+  final String sender;
+
+  @override
+  Widget build(BuildContext context) {
+    if (sender == 'current') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Material(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                topLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              elevation: 10,
+              color: Colors.lightBlue,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  msg,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          CircleAvatar(
+            child: Image.asset('images/logo.png'),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            child: Image.asset('images/logo.png')
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Material(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              elevation: 10,
+              color: Colors.lightBlue,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  msg,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
   }
 }
