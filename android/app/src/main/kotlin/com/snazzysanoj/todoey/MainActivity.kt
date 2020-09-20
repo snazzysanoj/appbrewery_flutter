@@ -1,4 +1,4 @@
-package in.snazzysanoj.todoey
+package com.snazzysanoj.todoey
 
 import io.flutter.embedding.android.FlutterActivity
 
