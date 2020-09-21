@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 import 'AddTask.dart';
 
-class TasksList extends StatelessWidget {
+class TasksList extends StatefulWidget {
   static const String route = "taskslist";
 
-  const TasksList({Key key}) : super(key: key);
+  TasksList({Key key}) : super(key: key);
+
+  @override
+  _TasksListState createState() => _TasksListState();
+}
+
+class _TasksListState extends State<TasksList> {
+  final List<Task> tasks = [
+    Task(name: 'Something', isDone: true),
+    Task(name: 'Somestuff', isDone: false),
+    Task(name: 'abcd', isDone: true),
+  ];
+
+  void addTask(String taskname) {}
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +27,17 @@ class TasksList extends StatelessWidget {
           onPressed: () => showModalBottomSheet(
             context: context,
             builder: (context) => SingleChildScrollView(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskPopup()),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: AddTaskPopup(
+                onAddNewTask: (taskname) => setState(
+                  () {
+                    tasks.add(Task(name: taskname, isDone: false));
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
             isScrollControlled: true,
           ),
           child: Icon(Icons.add),
@@ -48,7 +69,7 @@ class TasksList extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '12 Tasks',
+                        '${tasks.length} Tasks',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -70,7 +91,7 @@ class TasksList extends StatelessWidget {
                         horizontal: 20,
                         vertical: 20,
                       ),
-                      child: Tasks(),
+                      child: Tasks(tasks),
                     ),
                   ),
                 ),
@@ -90,16 +111,9 @@ class Task {
   }
 }
 
-List<Task> tasks = [
-  Task(name: 'Something', isDone: true),
-  Task(name: 'Somestuff', isDone: false),
-  Task(name: 'abcd', isDone: true),
-];
-
 class Tasks extends StatefulWidget {
-  const Tasks({
-    Key key,
-  }) : super(key: key);
+  final List<Task> tasks;
+  const Tasks(this.tasks);
 
   @override
   _TasksState createState() => _TasksState();
@@ -111,21 +125,20 @@ class _TasksState extends State<Tasks> {
     return ListView.builder(
       itemBuilder: (context, index) {
         return TaskTile(
-          text: tasks[index].name,
-          value: tasks[index].isDone,
+          text: widget.tasks[index].name,
+          value: widget.tasks[index].isDone,
           onChanged: (v) => setState(
-            () => tasks[index].toggle(),
+            () => widget.tasks[index].toggle(),
           ),
         );
       },
-      itemCount: tasks.length,
+      itemCount: widget.tasks.length,
     );
   }
 }
 
-// ignore: must_be_immutable
 class TaskTile extends StatelessWidget {
-  TaskTile({this.text, this.value, this.onChanged});
+  const TaskTile({this.text, this.value, this.onChanged});
 
   final String text;
   final bool value;

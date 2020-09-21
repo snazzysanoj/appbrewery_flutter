@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AddTaskPopup extends StatelessWidget {
-  const AddTaskPopup({Key key}) : super(key: key);
+  final Function onAddNewTask;
+  const AddTaskPopup({this.onAddNewTask});
 
   @override
   Widget build(BuildContext context) {
+    String taskname;
+
     return Container(
       color: Colors.grey[600],
       child: Container(
@@ -30,6 +33,7 @@ class AddTaskPopup extends StatelessWidget {
                   ),
                   Divider(thickness: 3, color: Colors.lightBlueAccent),
                   TextField(
+                    onChanged: (v) => taskname = v,
                     //autofocus: true,
                     decoration: InputDecoration(
                       hintText: 'Enter Task Name',
@@ -42,7 +46,7 @@ class AddTaskPopup extends StatelessWidget {
               FlatButton(
                 padding: EdgeInsets.all(20),
                 color: Colors.lightBlueAccent,
-                onPressed: () {},
+                onPressed: () => onAddNewTask(taskname),
                 child: Text(
                   'Add Task',
                   style: TextStyle(
