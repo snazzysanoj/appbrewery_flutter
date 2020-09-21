@@ -3,7 +3,7 @@ This repo consists of all apps that were developed during the Appbrewery Flutter
 
 ### Apps List
 
-- [x] I am Poor
+- [ ] I am Poor [**Too lazy to do xD**]
 - [x] MiCard
 - [x] Dicee
 - [x] Magic 8Ball
