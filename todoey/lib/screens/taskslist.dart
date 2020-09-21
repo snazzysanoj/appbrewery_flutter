@@ -65,14 +65,12 @@ class TasksList extends StatelessWidget {
                         topRight: Radius.circular(30),
                       ),
                     ),
-                    child: Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 20,
-                        ),
-                        child: Tasks(),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 20,
                       ),
+                      child: Tasks(),
                     ),
                   ),
                 ),
@@ -81,38 +79,53 @@ class TasksList extends StatelessWidget {
   }
 }
 
-List tasks = [
-  {'title': 'Something', 'value': true},
-  {'title': 'Somestuff', 'value': false},
-  {'title': 'abcd', 'value': true},
+class Task {
+  final String name;
+  bool isDone;
+
+  Task({this.name, this.isDone = false});
+
+  void toggle() {
+    isDone = !isDone;
+  }
+}
+
+List<Task> tasks = [
+  Task(name: 'Something', isDone: true),
+  Task(name: 'Somestuff', isDone: false),
+  Task(name: 'abcd', isDone: true),
 ];
 
-class Tasks extends StatelessWidget {
+class Tasks extends StatefulWidget {
   const Tasks({
     Key key,
   }) : super(key: key);
 
   @override
+  _TasksState createState() => _TasksState();
+}
+
+class _TasksState extends State<Tasks> {
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        TaskTile(
-          'Something',
-          true,
-          null,
-        ),
-        TaskTile(
-          'Something 2',
-          false,
-          null,
-        ),
-      ],
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return TaskTile(
+          text: tasks[index].name,
+          value: tasks[index].isDone,
+          onChanged: (v) => setState(
+            () => tasks[index].toggle(),
+          ),
+        );
+      },
+      itemCount: tasks.length,
     );
   }
 }
 
+// ignore: must_be_immutable
 class TaskTile extends StatelessWidget {
-  const TaskTile(this.text, this.value, this.onChanged);
+  TaskTile({this.text, this.value, this.onChanged});
 
   final String text;
   final bool value;
@@ -121,10 +134,15 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(text),
+      title: Text(
+        text,
+        style: TextStyle(
+          decoration: value ? TextDecoration.lineThrough : TextDecoration.none,
+        ),
+      ),
       trailing: Checkbox(
         value: value,
-        onChanged: (v) => onChanged(v),
+        onChanged: onChanged,
       ),
     );
   }

@@ -30,7 +30,7 @@ class AddTaskPopup extends StatelessWidget {
                   ),
                   Divider(thickness: 3, color: Colors.lightBlueAccent),
                   TextField(
-                    autofocus: true,
+                    //autofocus: true,
                     decoration: InputDecoration(
                       hintText: 'Enter Task Name',
                       border: InputBorder.none,
