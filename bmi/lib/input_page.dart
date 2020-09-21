@@ -28,7 +28,7 @@ class _InputPageState extends State<InputPage> {
       ),
       body: Column(
         children: [
-          Expanded(
+          Expanded( 
             flex: 3,
             child: Row(
               children: [
