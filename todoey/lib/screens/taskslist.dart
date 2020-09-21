@@ -28,7 +28,7 @@ class _TasksListState extends State<TasksList> {
               child: AddTaskPopup(
                 onAddNewTask: (taskname) => setState(
                   () {
-                    Provider.of<TaskData>(context,listen: false)
+                    Provider.of<TaskData>(context, listen: false)
                         .tasks
                         .add(Task(name: taskname, isDone: false));
                     Navigator.pop(context);
