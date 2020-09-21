@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/location.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -6,6 +7,14 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  @override
+  void initState() {
+    Location myLocation = Location();
+    myLocation.getLocation();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
