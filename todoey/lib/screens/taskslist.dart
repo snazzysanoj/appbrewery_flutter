@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'AddTask.dart';
+import 'package:todoey/taskdata.dart';
+import 'package:provider/provider.dart';
 
 class TasksList extends StatefulWidget {
   static const String route = "taskslist";
@@ -11,12 +13,6 @@ class TasksList extends StatefulWidget {
 }
 
 class _TasksListState extends State<TasksList> {
-  final List<Task> tasks = [
-    Task(name: 'Something', isDone: true),
-    Task(name: 'Somestuff', isDone: false),
-    Task(name: 'abcd', isDone: true),
-  ];
-
   void addTask(String taskname) {}
 
   @override
@@ -32,7 +28,9 @@ class _TasksListState extends State<TasksList> {
               child: AddTaskPopup(
                 onAddNewTask: (taskname) => setState(
                   () {
-                    tasks.add(Task(name: taskname, isDone: false));
+                    Provider.of<TaskData>(context,listen: false)
+                        .tasks
+                        .add(Task(name: taskname, isDone: false));
                     Navigator.pop(context);
                   },
                 ),
@@ -69,7 +67,7 @@ class _TasksListState extends State<TasksList> {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '${tasks.length} Tasks',
+                        '${Provider.of<TaskData>(context).tasks.length} Tasks',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -91,23 +89,12 @@ class _TasksListState extends State<TasksList> {
                         horizontal: 20,
                         vertical: 20,
                       ),
-                      child: Tasks(tasks),
+                      child: Tasks(Provider.of<TaskData>(context).tasks),
                     ),
                   ),
                 ),
               ]),
         ));
-  }
-}
-
-class Task {
-  final String name;
-  bool isDone;
-
-  Task({this.name, this.isDone = false});
-
-  void toggle() {
-    isDone = !isDone;
   }
 }
 
